@@ -223,11 +223,22 @@ app.get('/api/calls', (req, res) => {
   res.json(getSavedCalls());
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`\n======================================================`);
-  console.log(`🚀 Retell Voice Agent Hub Activo en Docker/Easypanel`);
-  console.log(`🌐 Escuchando en: 0.0.0.0:${PORT}`);
-  console.log(`🤖 Agent ID: ${DEFAULT_AGENT_ID}`);
-  console.log(`======================================================\n`);
-});
+const portsToListen = new Set([80, 3000, 8080]);
+if (process.env.PORT) {
+  const p = parseInt(process.env.PORT, 10);
+  if (!isNaN(p)) portsToListen.add(p);
+}
+
+for (const port of portsToListen) {
+  try {
+    app.listen(port, '0.0.0.0', () => {
+      console.log(`🚀 Retell Voice Agent Hub activo en 0.0.0.0:${port}`);
+    }).on('error', (err) => {
+      if (err.code !== 'EADDRINUSE') {
+        console.warn(`Puerto ${port} no disponible:`, err.message);
+      }
+    });
+  } catch (e) {}
+}
+
 
