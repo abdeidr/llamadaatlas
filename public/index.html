@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retell AI Voice Agent | Centro Osteopático Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Retell Client SDK Bundled (LiveKit + WebRTC integrado) -->
+  <script src="retell-bundle.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="main-header">
+      <div class="brand">
+        <div class="logo-icon">🎙️</div>
+        <div>
+          <h1>Retell AI Voice Agent</h1>
+          <p class="subtitle">Simulador y Probador de Agente • Centro Osteopático Atlas</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="agent-badge">
+          <span class="badge-dot"></span>
+          <span>agent_28776daceffa9dfdffdfe9397d</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="main-grid">
+      
+      <!-- Columna 1: Formulario del Lead con Variables Dinámicas -->
+      <section class="card form-card">
+        <div class="card-header">
+          <h2>📋 Formulario de Captación de Lead</h2>
+          <span class="badge-tag">Variables Dinámicas</span>
+        </div>
+
+        <form id="leadForm" class="form-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="to_number">Teléfono del Lead (to_number) *</label>
+              <input type="text" id="to_number" name="to_number" value="+34612345678" placeholder="+34600000000" required>
+            </div>
+            <div class="form-group">
+              <label for="lead_name">Nombre del Lead (lead_name) *</label>
+              <input type="text" id="lead_name" name="lead_name" value="Carlos Mendoza" placeholder="Ej. Carlos Mendoza" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="modalidad">Modalidad</label>
+              <select id="modalidad" name="modalidad">
+                <option value="Presencial en Pozuelo de Alarcón" selected>Presencial en Pozuelo de Alarcón</option>
+                <option value="Naturopatía y Consulta Online">Naturopatía y Consulta Online</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="preferencia_pago">Preferencia de Pago / Intención</label>
+              <select id="preferencia_pago" name="preferencia_pago">
+                <option value="Tiene dudas antes de pagar" selected>Tiene dudas antes de pagar</option>
+                <option value="Ya quiere pagar y reservar directamente">Ya quiere pagar y reservar directamente</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="tipo_dolor">Tipo de Dolor / Patología</label>
+              <input type="text" id="tipo_dolor" name="tipo_dolor" value="Hernia discal lumbar L5-S1 con ciática" placeholder="Ej. Hernia discal, ciática, lumbalgia">
+            </div>
+            <div class="form-group">
+              <label for="desde_hace_cuanto">¿Desde hace cuánto?</label>
+              <input type="text" id="desde_hace_cuanto" name="desde_hace_cuanto" value="Más de 6 meses" placeholder="Ej. 2 semanas, 6 meses, años">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="sintomas_principales">Síntomas Principales</label>
+            <input type="text" id="sintomas_principales" name="sintomas_principales" value="Dolor punzante en glúteo que baja a la pierna, adormecimiento de pie" placeholder="Ej. Pinchazos, rigidez, dolor al sentarse">
+          </div>
+
+          <div class="form-group">
+            <label for="objetivo_principal">Objetivo Principal del Paciente</label>
+            <input type="text" id="objetivo_principal" name="objetivo_principal" value="Evitar cirugía y volver a caminar sin dolor" placeholder="Ej. Poder dormir bien, hacer deporte, evitar operarse">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="duda_principal">Duda Principal</label>
+              <input type="text" id="duda_principal" name="duda_principal" value="¿Cómo combinan la osteopatía con la fisioterapia y naturopatía?" placeholder="Ej. Precio de la consulta, duración de tratamiento">
+            </div>
+            <div class="form-group">
+              <label for="available_time">Mejor Momento para Llamar (available_time)</label>
+              <input type="text" id="available_time" name="available_time" value="Por la mañana antes de las 13:00" placeholder="Ej. Mañana, tarde a partir de las 17h">
+            </div>
+          </div>
+
+          <!-- Botón de Acción Principal -->
+          <div class="action-buttons-container single-button">
+            <button type="button" class="btn-test-web" id="btnTestWebCall">
+              <span class="btn-icon">🎙️</span>
+              <div class="btn-text-block">
+                <span class="btn-title">Probar Agente con Voz en Vivo</span>
+                <span class="btn-sub">Conversa en tiempo real con tu micrófono</span>
+              </div>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Columna 2: Simulador / Estado de Voz y Log de Llamadas -->
+      <section class="card status-card">
+        <div class="card-header">
+          <h2>Estado del Agente</h2>
+          <div class="live-indicator" id="liveIndicator">
+            <span class="dot"></span>
+            <span id="callStatusText">Inactivo</span>
+          </div>
+        </div>
+
+        <!-- Voice Stage -->
+        <div class="voice-box">
+          <div class="orb-container">
+            <div class="voice-orb" id="voiceOrb">
+              <div class="orb-core"></div>
+              <div class="orb-wave wave-1"></div>
+              <div class="orb-wave wave-2"></div>
+            </div>
+          </div>
+
+          <p class="timer-display" id="callTimer">00:00</p>
+          <p class="speaker-state" id="speakerState">Listo para iniciar</p>
+
+          <div class="web-call-controls hidden" id="webCallControls">
+            <button class="btn-end-web" id="btnEndWebCall">⏹️ Colgar Llamada</button>
+            <button class="btn-mute" id="btnMuteWeb">🎙️</button>
+          </div>
+        </div>
+
+        <!-- Vista Previa de Variables Enviadas -->
+        <div class="variables-preview">
+          <div class="section-subhead">
+            <h3>Variables Dinámicas (JSON para Retell)</h3>
+            <button class="btn-copy" id="btnCopyJson">📋 Copiar</button>
+          </div>
+          <pre class="json-viewer" id="jsonPreview">{}</pre>
+        </div>
+
+        <!-- Historial Reciente de Sesiones -->
+        <div class="history-section">
+          <div class="section-subhead">
+            <h3>Historial de Sesiones</h3>
+            <span class="count-pill" id="historyCount">0</span>
+          </div>
+          <div class="history-list" id="historyList">
+            <p class="empty-text">No se han iniciado pruebas en esta sesión.</p>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
