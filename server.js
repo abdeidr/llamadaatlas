@@ -212,15 +212,21 @@ app.post('/api/retell/create-web-call', async (req, res) => {
   }
 });
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', time: new Date().toISOString() });
+});
+
 // Obtener historial de llamadas
 app.get('/api/calls', (req, res) => {
   res.json(getSavedCalls());
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n======================================================`);
-  console.log(`🚀 Retell Voice Agent Hub Activo`);
-  console.log(`🌐 Panel: http://localhost:${PORT}`);
-  console.log(`🤖 Agent ID: ${process.env.RETELL_AGENT_ID || 'agent_28776daceffa9dfdffdfe9397d'}`);
+  console.log(`🚀 Retell Voice Agent Hub Activo en Docker/Easypanel`);
+  console.log(`🌐 Escuchando en: 0.0.0.0:${PORT}`);
+  console.log(`🤖 Agent ID: ${DEFAULT_AGENT_ID}`);
   console.log(`======================================================\n`);
 });
+
