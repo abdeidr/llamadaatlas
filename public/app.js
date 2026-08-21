@@ -33,9 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getFormData() {
     const formData = new FormData(leadForm);
+    const toNumber = formData.get('to_number')?.trim() || '';
     return {
-      to_number: formData.get('to_number')?.trim() || '',
+      to_number: toNumber,
       retell_llm_dynamic_variables: {
+        user_number: toNumber,
+        telefono: toNumber,
+        to_number: toNumber,
         lead_name: formData.get('lead_name')?.trim() || '',
         modalidad: formData.get('modalidad')?.trim() || '',
         preferencia_pago: formData.get('preferencia_pago')?.trim() || '',
